@@ -1,17 +1,16 @@
-# Large Tether Transfer Agent
+# Mass Identical Contract Deployment
 
 ## Description
 
-This agent detects transactions with large Tether transfers
+This agent detects the deployment of identical transactions in a short period of time.
 
 ## Supported Chains
 
 - Ethereum
-- List any other chains this agent can support e.g. BSC
 
 ## Alerts
 
-Describe each of the type of alerts fired by this agent
+TODO: Describe each of the type of alerts fired by this agent
 
 - FORTA-1
   - Fired when a transaction contains a Tether transfer over 10,000 USDT
