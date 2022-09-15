@@ -44,6 +44,7 @@ describe("mass identical contract deployment agent", () => {
           "description": "Contract with same code deployed multiple times",
           "metadata": {
             "hashedOpCodes": "9762766c452eeefeb827ecdabfbd7cf52e67a25bfd7f62d4d12bb7377e43260c",
+            "deploymentCount": "6"
           },
           "name": "Mass Contract Creation",
           "protocol": "ethereum",

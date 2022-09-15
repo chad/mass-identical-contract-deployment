@@ -53,7 +53,8 @@ const handleTransaction: HandleTransaction = async (
       severity: FindingSeverity.Info,
       type: FindingType.Suspicious,
       metadata: {
-        hashedOpCodes: hashedOpCodes
+        hashedOpCodes: hashedOpCodes,
+        deploymentCount: filterDeploymentsByTimeStamp(hashesOfContractsWeHaveSeen[hashedOpCodes]).length.toString()
       }
     }))
   }
