@@ -13,7 +13,7 @@ const sha = require("js-sha256");
 
 const { EVM } = require("evm");
 
-const THRESHOLD_FOR_DUPLICATE_CONTRACT_COUNT = 5
+export const THRESHOLD_FOR_DUPLICATE_CONTRACT_COUNT = 5
 const THRESHOLD_FOR_DUPLICATE_CONTRACT_TIMING_IN_MILLISECONDS = 60 * 1000
 /* FIXME: I believe this is safe because every agent is running in a single-threaded manner.  Need to verify
 */
@@ -44,7 +44,7 @@ const handleTransaction: HandleTransaction = async (
     timestamp: (new Date()).getTime()
   }
   hashesOfContractsWeHaveSeen[hashedOpCodes].push(deployment);
-  console.log(hashesOfContractsWeHaveSeen);
+
   if (manyInstancesOfidenticalContractsRecentlyDeployed(hashedOpCodes)) {
     findings.push(Finding.fromObject({
       name: "Mass Contract Creation",
@@ -74,10 +74,18 @@ function isContractCreation(txEvent: TransactionEvent) {
   return txEvent.transaction.to == "" || txEvent.transaction.to == undefined || txEvent.transaction.to == null;
 }
 
-export default {
-  handleTransaction
-};
+
 function manyInstancesOfidenticalContractsRecentlyDeployed(hashedOpCodes: string): boolean {
-  throw new Error("Function not implemented.");
+  const deployments = hashesOfContractsWeHaveSeen[hashedOpCodes]
+  return deployments.length > 1 && filterDeploymentsByTimeStamp(deployments).length > THRESHOLD_FOR_DUPLICATE_CONTRACT_COUNT
 }
 
+function filterDeploymentsByTimeStamp(deployments: Deployment[]) : Deployment[] {
+  const currentTime = (new Date()).getTime();
+  return deployments.filter( ( d: Deployment) => (currentTime - d.timestamp) <= THRESHOLD_FOR_DUPLICATE_CONTRACT_TIMING_IN_MILLISECONDS)
+}
+
+export default {
+  handleTransaction,
+  THRESHOLD_FOR_DUPLICATE_CONTRACT_COUNT
+};
