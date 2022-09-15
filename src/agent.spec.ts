@@ -6,13 +6,9 @@ import {
   createTransactionEvent,
   ethers,
 } from "forta-agent";
-import agent, {
-  ERC20_TRANSFER_EVENT,
-  TETHER_ADDRESS,
-  TETHER_DECIMALS,
-} from "./agent";
+import agent from "./agent";
 
-describe("high tether transfer agent", () => {
+describe("mass identical contract deployment agent", () => {
   let handleTransaction: HandleTransaction;
   const mockTxEvent = createTransactionEvent({} as any);
 
@@ -21,17 +17,13 @@ describe("high tether transfer agent", () => {
   });
 
   describe("handleTransaction", () => {
-    it("returns empty findings if there are no Tether transfers", async () => {
+    it("returns empty findings if transaction does not include contract", async () => {
       mockTxEvent.filterLog = jest.fn().mockReturnValue([]);
-
+      mockTxEvent.transaction.to = "not a null value";
       const findings = await handleTransaction(mockTxEvent);
 
       expect(findings).toStrictEqual([]);
       expect(mockTxEvent.filterLog).toHaveBeenCalledTimes(1);
-      expect(mockTxEvent.filterLog).toHaveBeenCalledWith(
-        ERC20_TRANSFER_EVENT,
-        TETHER_ADDRESS
-      );
     });
 
     it("returns a finding if there is a Tether transfer over 10,000", async () => {
