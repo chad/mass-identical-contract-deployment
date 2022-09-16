@@ -32,12 +32,13 @@ const handleTransaction: HandleTransaction = async (
   if (!isContractCreation(txEvent))
     return findings;
 
-
   const evm = new EVM(txEvent.transaction.data);
   const codes = getOpCodeNamesFromContractInOrder(evm);
 
   const hashedOpCodes = sha256(codes.join(""));
   hashesOfContractsWeHaveSeen[hashedOpCodes] ||= [];
+
+  console.log("Found a contract creation transaction with " + codes.length + " opcodes and hash " + hashedOpCodes)
 
   const deployment: Deployment = {
     deployingContract: txEvent.transaction.from,
