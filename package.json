@@ -1,6 +1,6 @@
 {
   "name": "mass-identical-contract-deployment-forta-bot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Forta bot to detect many smart contracts with idential(ish) code deployed near the same time",
   "repository": "https://github.com/chad/mass-identical-contract-deployment",
   "chainIds": [
